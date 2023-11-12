@@ -1,0 +1,5 @@
+(executable
+ (name rust_maps_bench)
+ (libraries core_unix.command_unix core core_bench rust_maps)
+ (preprocess
+  (pps ppx_jane)))

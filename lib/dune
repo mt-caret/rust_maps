@@ -1,0 +1,39 @@
+(rule
+ (enabled_if
+  (= %{profile} release))
+ (deps
+  (source_tree ../rust))
+ (targets librust_maps.a dllrust_maps.so)
+ (action
+  (no-infer
+   (progn
+    (chdir
+     ../rust
+     (run cargo build --release))
+    (copy ../rust/target/release/librust_maps.so dllrust_maps.so)
+    (copy ../rust/target/release/librust_maps.a librust_maps.a)))))
+
+(rule
+ (enabled_if
+  (not
+   (= %{profile} release)))
+ (deps
+  (source_tree ../rust))
+ (targets librust_maps.a dllrust_maps.so)
+ (action
+  (no-infer
+   (progn
+    (chdir
+     ../rust
+     (run cargo build))
+    (copy ../rust/target/debug/librust_maps.so dllrust_maps.so)
+    (copy ../rust/target/debug/librust_maps.a librust_maps.a)))))
+
+(library
+ (name rust_maps)
+ (public_name rust_maps)
+ (foreign_archives rust_maps)
+ (libraries core)
+ (inline_tests)
+ (preprocess
+  (pps ppx_jane)))

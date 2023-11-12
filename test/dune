@@ -1,0 +1,6 @@
+(library
+ (name rust_maps_test)
+ (libraries base_quickcheck core rust_maps)
+ (inline_tests)
+ (preprocess
+  (pps ppx_jane)))
